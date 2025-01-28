@@ -1,0 +1,18 @@
+from google.colab import drive
+drive.mount('/content/drive')
+!nvidia-smi
+!pip install modelscope==1.4.2
+!pip install open_clip_torch
+!pip install pytorch-lightning
+from modelscope.pipelines import pipeline
+from modelscope.outputs import OutputKeys
+
+p = pipeline('text-to-video-synthesis', 'damo/text-to-video-synthesis')
+test_text = {
+        'text': 'A 20 years old boy dance in party.',
+    }
+output_video_path = p(test_text,)[OutputKeys.OUTPUT_VIDEO]
+print('output_video_path:', output_video_path)
+# Download result
+from google.colab import files
+files.download(output_video_path)
